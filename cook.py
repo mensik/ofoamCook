@@ -11,3 +11,5 @@ print '*************************\n* Welcome to ofoamCook! *\n*******************
 import bounds.fileParser
 
 print bounds.fileParser.parseBound('constant/polyMesh/boundary')
+
+print 'Tomas je kral '
