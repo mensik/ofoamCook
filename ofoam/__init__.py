@@ -1,4 +1,7 @@
 import fileParser
+import boundaries
 
 class Problem:
-	pass
+	
+	def loadBoundaries(self):
+		self.boundaries = fileParser.parseBounds()

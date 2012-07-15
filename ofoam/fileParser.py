@@ -1,38 +1,69 @@
-def parseBounds(fileName = 'constant/polyMesh/boundary'):
-    
-    bounds = {}
+import re
 
-    import re
+class FileParser:
+    def __init__(self, lines, pos = 0):
+        self.lines = lines
+        self.pos = pos
+    
+    def getLine(self, stripped = True):
+        line = self.lines[self.pos]
+        if stripped:
+            line = line.strip()
+        return line
+    
+    def move(self, noLines = 1):
+        self.pos = self.pos + noLines
+        
+    def findLine(self, key, fromBegining = False):
+        if fromBegining:
+            self.pos = 0
+        
+        while re.search(key, self.getLine()) == None:
+            self.move()
+    
+
+def readKeyWord(line, dict):
+    prop = re.split('\W+', line)
+    dict[prop[0]] = prop[1]
+
+def readDictionary(pars):
+    name = pars.getLine()
+    entries = {}
+    pars.move(2)
+        
+    while pars.getLine() != '}':
+        readKeyWord(pars.getLine(), entries)
+        pars.move()
+    return (name, entries)
+
+def readNumberedList(pars):
+    
+    pars.findLine('[0-9]')
+    
+    nEntries = int(re.search('[0-9]*', pars.getLine()).group(0))
+    pars.move(2)
+    
+    list = {}
+
+    for i in range(nEntries):
+        dic = readDictionary(pars)
+        list[dic[0]] = dic[1] 
+        pars.move()
+    
+    return list
+
+def parseBounds(fileName='constant/polyMesh/boundary'):
 
     f = open(fileName, 'r')
-    
     lines = f.readlines()
-    linePos = 0
+    pars = FileParser(lines)
     
-    while lines[linePos].strip() != 'FoamFile':
-        linePos = linePos + 1
-
-    while lines[linePos].strip() != '}':
-        linePos = linePos + 1
+    pars.findLine('FoamFile')
+    fFile = readDictionary(pars)
     
-    while re.search('[0-9]', lines[linePos]) == None:
-        linePos = linePos + 1
+    if fFile[1]['object'] != 'boundary':
+        print 'Wrong file type!'
 
-    noBoundaries = int(re.search('[0-9]*', lines[linePos]).group(0))
+    bounds = readNumberedList(pars)
     
-    linePos = linePos + 2
-
-    for i in range(noBoundaries):
-        name = lines[linePos].strip()
-        properties = {}
-        linePos = linePos+2
-        
-        while lines[linePos].strip() != '}':
-            prop = re.split('\W+',lines[linePos].strip())
-            properties[prop[0]]=prop[1]
-
-            linePos = linePos + 1
-        
-        bounds[name] = properties
-        linePos = linePos + 1
     return bounds
