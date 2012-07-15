@@ -6,10 +6,26 @@
 #  Main file for the utility
 #
 
-print '*************************\n* Welcome to ofoamCook! *\n*************************\n'
+import cmd
 
-import bounds.fileParser
+class CookCmd(cmd.Cmd):
+    intro = '\nWelcome to the oFoamCook console! Type help or ? to list commands \n'
+    prompt = '(cook) '
 
-print bounds.fileParser.parseBound('constant/polyMesh/boundary')
+    def do_help(self, arg):
+        'Displays this help'
+        cmd.Cmd.do_help(self,arg)
 
-print 'Tomas je kral '
+    def do_exit(self, arg):
+        'Exits the program'
+        return -1
+
+    def precmd(self, line):
+        line = line.lower() 
+        return line
+
+import bounds
+
+shell = CookCmd()
+
+shell.cmdloop()
