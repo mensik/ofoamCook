@@ -1,5 +1,7 @@
 import sys
 
+## Implementation of Y/N prompt on commandline
+## @return boolean
 def query_yn(question, default="yes"):
     """Ask a yes/no question via raw_input() and return their answer.
     
