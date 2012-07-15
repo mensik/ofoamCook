@@ -1,4 +1,4 @@
-def parseBound(fileName):
+def parseBounds(fileName = 'constant/polyMesh/boundary'):
     
     bounds = {}
 
