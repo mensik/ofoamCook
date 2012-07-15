@@ -1,3 +1,4 @@
 import fileParser
 
-
+class Problem:
+	
