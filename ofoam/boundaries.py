@@ -7,7 +7,7 @@ types = ('patch', # The basic patch type for a patch condition that contains no 
          'cyclic',
          'processor')
 
-from fileParser import FileParser
+from fileUtils import FileParser
 
 class Boundaries:
     def __init__(self):
