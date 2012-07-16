@@ -1,4 +1,4 @@
-types = ['laplacianFoam', 'icoFoam']
+import lib
 
 ## Class representing main solver configuration
 #
