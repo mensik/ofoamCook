@@ -2,6 +2,7 @@ import fileUtils
 import types
 import incompressible
 import boundaries
+import exceptions
 
 ## Basic class to store and manipulate information about OpenFOAM problem
 class Problem:

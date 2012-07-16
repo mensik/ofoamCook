@@ -10,6 +10,7 @@ from cmd2 import Cmd, make_option, options, Cmd2TestCase
 from general.cmdUtils import query_yn
 
 import ofoam
+from ofoam.exceptions import IncompleteData
 
 class CookCmd(Cmd):
     intro = '\nWelcome to the oFoamCook console! Type help or ? to list commands \n'
@@ -24,6 +25,14 @@ class CookCmd(Cmd):
         self.problem.loadBoundaries()
         if opts.verbose:
             print self.problem.boundaries
+            
+    def do_setup(self, arg, opts=None):
+        '''Setup main solver and all other necessary files'''
+        try:
+            self.problem.loadBoundaries()
+        except IncompleteData as e:
+            print e
+        
     
     def do_ask(self, arg):
         query_yn('Do you like it?')

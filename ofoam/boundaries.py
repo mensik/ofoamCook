@@ -8,6 +8,7 @@ types = ('patch', # The basic patch type for a patch condition that contains no 
          'processor')
 
 from fileUtils import FileParser
+from exceptions import IncompleteData
 
 class Boundaries:
     def __init__(self):
@@ -25,17 +26,23 @@ class Boundaries:
 ## Parse file containing information about boundaries of a domain
 def parseBounds(fileName='constant/polyMesh/boundary'):
 
-    f = open(fileName, 'r')
-    lines = f.readlines()
-    pars = FileParser(lines)
+    bounds = None
+    try:
+        f = open(fileName, 'r')
+        lines = f.readlines()
+        pars = FileParser(lines)
+        
+        pars.findLine('FoamFile')
+        fFile = pars.readDictionary()
+        
+        if fFile[1]['object'] != 'boundary':
+            raise IncompleteData('Wrong data file! Not object "boundary" but "' + fFile[1]['object'] + '"')
     
-    pars.findLine('FoamFile')
-    fFile = pars.readDictionary()
-    
-    if fFile[1]['object'] != 'boundary':
-        print 'Wrong file type!'
-
-    bounds = pars.readNumberedList()
+        bounds = pars.readNumberedList()
+    except IncompleteData as e:
+        raise e
+    except:
+        raise IncompleteData('Boundary file is corrupted or missing')
     
     return bounds
 
