@@ -1,4 +1,5 @@
 import incompressible
+import boundaries
 
 ## Class representing main solver configuration
 #

@@ -1,5 +1,4 @@
 import fileParser
-import boundaries
 import solvers
 
 ## Basic class to store and manipulate information about OpenFOAM problem

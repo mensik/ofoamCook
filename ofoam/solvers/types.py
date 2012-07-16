@@ -3,6 +3,9 @@ class ASolver:
         self.type = 'No type'
         self.family = 'No family'
         self.variables 
+    
+    def getDefaultVariables(self):
+        return []
 
     def __repr__(self):
         return self.family
