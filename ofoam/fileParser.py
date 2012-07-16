@@ -83,20 +83,3 @@ class FileParser:
             self.move()
         
         return list
-
-## Parse file containing information about boundaries of a domain
-def parseBounds(fileName='constant/polyMesh/boundary'):
-
-    f = open(fileName, 'r')
-    lines = f.readlines()
-    pars = FileParser(lines)
-    
-    pars.findLine('FoamFile')
-    fFile = pars.readDictionary()
-    
-    if fFile[1]['object'] != 'boundary':
-        print 'Wrong file type!'
-
-    bounds = pars.readNumberedList()
-    
-    return bounds
