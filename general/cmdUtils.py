@@ -12,8 +12,8 @@ def query_yn(question, default="yes"):
 
     The "answer" return value is one of "yes" or "no".
     """
-    valid = {"yes":True,   "y":True,  "ye":True,
-             "no":False,     "n":False}
+    valid = {"yes":True, "y":True, "ye":True,
+             "no":False, "n":False}
     if default == None:
         prompt = " [y/n] "
     elif default == "yes":
@@ -33,4 +33,27 @@ def query_yn(question, default="yes"):
         else:
             sys.stdout.write("Please respond with 'yes' or 'no' "\
                              "(or 'y' or 'n').\n")
+            
+def editDictionary(name, dictionary):
+    
+    while 1:
+        print '   ' + name + '\n----------------------'
+        for  (i, pair) in enumerate(dictionary.items()):
+            print str(i) + ": " + pair[0] + " = " + pair[1]
+        
+        sys.stdout.write('\nChoose field to edit (q - quit) : ')
+        key = ''
+        try:
+            choice = raw_input().lower()
+            if choice.strip() == 'q':
+                break
+        
+            key = dictionary.keys()[int(choice)]
+        except:
+            print '\n Illegal choice !!! \n'
+            continue
+        
+        sys.stdout.write('\n ' + key + ' = ')
+        value = raw_input()
+        dictionary[key] = value;
 
