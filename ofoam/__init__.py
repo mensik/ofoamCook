@@ -1,5 +1,7 @@
 import fileParser
-import solvers
+import types
+import incompressible
+import boundaries
 
 ## Basic class to store and manipulate information about OpenFOAM problem
 class Problem:

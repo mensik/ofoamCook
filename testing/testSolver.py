@@ -1,6 +1,6 @@
 import ofoam
 
-U = ofoam.solvers.types.SpeedVariable()
-p = ofoam.solvers.types.PressureVariable()
+U = ofoam.types.SpeedVariable()
+p = ofoam.types.PressureVariable()
 
 print U

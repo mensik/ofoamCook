@@ -1,3 +1,8 @@
+## Abstract solver prototype class
+#
+# This class and its subclasses are intended to serve as prototyping objects to
+# initiate newly created solver configuration and to check the correct settings
+#
 class ASolver:
     def __init__(self):
         self.type = 'No type'
@@ -9,7 +14,8 @@ class ASolver:
 
     def __repr__(self):
         return self.family
-    
+ 
+   
 class Variable:
     def __init__(self):
         self.dimension = '[]'

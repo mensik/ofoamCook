@@ -1,4 +1,4 @@
-from ..types import SpeedVariable, PressureVariable, ASolver
+from types import SpeedVariable, PressureVariable, ASolver
 
 class Incompressible(ASolver): 
     def __init__(self):

@@ -3,9 +3,9 @@ import ofoam
 prb = ofoam.Problem()
 prb.loadBoundaries()
 
-ofoam.solvers.incompressible.IcoFoam()
+ofoam.incompressible.IcoFoam()
 
 print prb
 
-solv = ofoam.solvers.incompressible.IcoFoam()
+solv = ofoam.incompressible.IcoFoam()
 print solv
