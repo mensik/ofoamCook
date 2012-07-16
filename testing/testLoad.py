@@ -3,4 +3,6 @@ import ofoam
 problem = ofoam.Problem()
 problem.loadBoundaries()
 
-print problem.boundaries
+writer = ofoam.fileUtils.FileWriter('testFile')
+writer.writeNestedDictionaries('boundaries', problem.boundaries.data)
+writer.close()
