@@ -1,7 +1,7 @@
-import lib
+import incompressible
 
 ## Class representing main solver configuration
 #
 # Solver class represents main solver configuration
-class Solver:
+class SolverConf:
     pass
