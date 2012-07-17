@@ -5,6 +5,7 @@ import nLinSolvers
 import boundaries
 import exceptions
 import fileUtils
+import controlDic
 import types
 
 solvers = {'icoFoam': incompressible.IcoFoam,
