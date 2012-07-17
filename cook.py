@@ -7,7 +7,7 @@
 #
 
 from cmd2 import Cmd, make_option, options, Cmd2TestCase
-from general.cmdUtils import query_yn
+from general.cmdUtils import query_yn, chooseFromDictionary
 
 import ofoam
 from ofoam.exceptions import IncompleteData
@@ -30,6 +30,7 @@ class CookCmd(Cmd):
         '''Setup main solver and all other necessary files'''
         try:
             self.problem.loadBoundaries()
+            chooseFromDictionary('Choose solver:', ofoam.solvers)
         except IncompleteData as e:
             print e
         

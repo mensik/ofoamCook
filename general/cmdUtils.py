@@ -1,4 +1,5 @@
 import sys
+from ofoam.exceptions import IncompleteData
 
 ## Implementation of Y/N prompt on commandline
 ## @return boolean
@@ -33,7 +34,7 @@ def query_yn(question, default="yes"):
         else:
             sys.stdout.write("Please respond with 'yes' or 'no' "\
                              "(or 'y' or 'n').\n")
-            
+ 
 def editDictionary(name, dictionary):
     
     while 1:
@@ -56,4 +57,26 @@ def editDictionary(name, dictionary):
         sys.stdout.write('\n ' + key + ' = ')
         value = raw_input()
         dictionary[key] = value;
+        
+def chooseFromDictionary(question, dictionary):
+    sys.stdout.write('\n')
+    while 1:
+        for  (i, key) in enumerate(dictionary.keys()):
+            print str(i) + ": " + key
+        
+        key = ''
+        try:
+            sys.stdout.write(question)
+            choice = raw_input().lower()
+            if choice.strip() == 'q':
+                raise IncompleteData('No option selected! (question: ' + question + ')')
+                break
+        
+            key = dictionary.keys()[int(choice)]
+            break
+        except IncompleteData as e:
+            raise e
+        except:
+            print '\n Illegal choice !!! \n'
+            continue
 

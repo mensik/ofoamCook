@@ -1,8 +1,10 @@
-import fileUtils
-import types
 import incompressible
 import boundaries
 import exceptions
+import fileUtils
+import types
+
+solvers = {'icoFoam': incompressible.IcoFoam}
 
 ## Basic class to store and manipulate information about OpenFOAM problem
 class Problem:
@@ -10,7 +12,8 @@ class Problem:
 	def __init__(self):
 		self.boundaries = None
 		self.solver = None
-	
+		self.variables = None
+		
 	## Loads boundaries from the constant/polyMesh directory 
 	def loadBoundaries(self):
 		self.boundaries = boundaries.Boundaries()
