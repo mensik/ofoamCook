@@ -99,10 +99,10 @@ class FileWriter:
         if name != None:
             self.file.write("}\n")
     
-    def writeNestedDictionaries(self, name, nestedDictionary):
+    def writeNestedDictionaries(self, name, dictionary):
         if name != None:
             self.file.write(name + "\n{\n")
-        for (key, d) in nestedDictionary.iteritems():
-            self.writeDictionary(key, d)
+        for (key, nestedDictionary) in dictionary.iteritems():
+            self.writeDictionary(key, nestedDictionary)
         if name != None:
             self.file.write("}\n")
