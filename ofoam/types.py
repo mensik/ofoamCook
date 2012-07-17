@@ -9,13 +9,27 @@ class ASolver:
         self.family = 'No family'
         self.variables 
     
-    def getDefaultVariables(self):
+    def getDefaultVariables(self, tModel):
         return []
 
     def __repr__(self):
         return self.family
  
-   
+class FoamFileHeader():
+    def __init__(self):
+        self.name = 'FoamFile'
+        self.data = {}
+        self.data['version'] = '2.0'
+        self.data['format'] = 'ascii'
+        
+class FoamDictionaryFile():
+    def __init__(self, header):
+        self.header = header
+        self.options = None
+        self.data = {}
+        
+    
+
 class Variable:
     def __init__(self):
         self.dimension = '[]'
@@ -32,18 +46,26 @@ class VecVolVariable(Variable):
         self.type = 'volVectorField'
         
 class SpeedVariable(VecVolVariable):
-    def __init__(self, name = 'U'):
+    def __init__(self, name='U'):
         VecVolVariable.__init__(self, name)
         self.dimension = '[0 1 -1 0 0 0 0]'
 
-class ScaVolVariable:
+class ScaVolVariable(Variable):
     def __init__(self, name):
         self.name = name
         self.type = 'volScalarField'
         
 class PressureVariable(ScaVolVariable):
-    def __init__(self, name = 'p'):
+    def __init__(self, name='p'):
+        ScaVolVariable.__init__(self, name)
+        self.dimension = '[0 2 -2 0 0 0 0]'
+
+class TurbKineticEnergy(ScaVolVariable):
+    def __init__(self, name='k'):
         ScaVolVariable.__init__(self, name)
         self.dimension = '[0 2 -2 0 0 0 0]'
         
-        
+class DisipationRatio(ScaVolVariable):
+    def __init__(self, name='epsilon'):
+        ScaVolVariable.__init__(self, name)
+        self.dimension = '[0 2 -3 0 0 0 0]'

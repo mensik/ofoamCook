@@ -1,4 +1,5 @@
 import incompressible
+import rasproperties
 import boundaries
 import exceptions
 import fileUtils

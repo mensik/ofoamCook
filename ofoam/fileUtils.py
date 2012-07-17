@@ -91,11 +91,21 @@ class FileWriter:
     def close(self):
         self.file.close()
     
-    def writeDictionary(self, name, dictionary):
+    def writeDictionary(self, name, dictionary, sort = None):
         if name != None:
             self.file.write(name + "\n{\n")
-        for (key, value) in dictionary.iteritems():
-            self.file.write("\t" + key + "\t\t" + value + ";\n")
+            
+        if sort == None:
+            sort = dictionary.keys()
+        
+        for key in sort:
+            
+            value = dictionary[key]
+            if isinstance(value, dict):
+                FileWriter.writeDictionary(self, key, value)
+            else:
+                self.file.write("\t" + key + "\t\t" + str(value) + ";\n")
+
         if name != None:
             self.file.write("}\n")
     

@@ -60,11 +60,12 @@ def editDictionary(name, dictionary):
         
 def chooseFromDictionary(question, dictionary):
     sys.stdout.write('\n')
+    key = None
     while 1:
         for  (i, key) in enumerate(dictionary.keys()):
             print str(i) + ": " + key
         
-        key = ''
+        
         try:
             sys.stdout.write(question)
             choice = raw_input().lower()
@@ -79,4 +80,51 @@ def chooseFromDictionary(question, dictionary):
         except:
             print '\n Illegal choice !!! \n'
             continue
+    
+    return dictionary[key]
 
+def chooseFromList(question, l):
+    sys.stdout.write('\n')
+    while 1:
+        for  (i, key) in enumerate(l):
+            print str(i) + ": " + key
+        
+        key = ''
+        try:
+            sys.stdout.write(question)
+            choice = raw_input().lower()
+            if choice.strip() == 'q':
+                raise IncompleteData('No option selected! (question: ' + question + ')')
+                break
+        
+            key = l[int(choice)]
+            break
+        except IncompleteData as e:
+            raise e
+        except:
+            print '\n Illegal choice !!! \n'
+            continue
+    return key
+        
+def askForFloat(question, default):
+    choice = default
+
+    try :
+        sys.stdout.write(question + "[" +str(default) + "]")
+        choice = float(raw_input())
+        
+    except:
+        print 'Choosing default value \n'
+            
+    return choice
+
+def setupFromOptions(options):
+    result = {}
+    for (option, values) in options.items():
+        if isinstance(values, list):
+            result[option] = chooseFromList('Choose ' + option + ' : ', values)
+        if isinstance(values, float):
+            result[option] = askForFloat('Set ' + option + ' : ', values)
+    
+    return result
+        

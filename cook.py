@@ -7,7 +7,7 @@
 #
 
 from cmd2 import Cmd, make_option, options, Cmd2TestCase
-from general.cmdUtils import query_yn, chooseFromDictionary
+from ofoam.cmdUtils import query_yn, chooseFromDictionary
 
 import ofoam
 from ofoam.exceptions import IncompleteData
@@ -30,7 +30,16 @@ class CookCmd(Cmd):
         '''Setup main solver and all other necessary files'''
         try:
             self.problem.loadBoundaries()
-            chooseFromDictionary('Choose solver:', ofoam.solvers)
+            self.problem.solver = chooseFromDictionary('Choose solver:', ofoam.solvers)()
+            ## @todo Now only RAS model
+            self.problem.raspFile = ofoam.rasproperties.cmdSetup()
+            self.problem.turbulentModel = self.problem.raspFile.data['RASModel']
+            
+            self.problem.variables = self.problem.solver.getDefaultVariables(self.problem.turbulentModel)
+            
+            for v in self.problem.variables:
+                print v
+            
         except IncompleteData as e:
             print e
         
