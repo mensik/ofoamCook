@@ -17,12 +17,10 @@ class Incompressible(ASolver):
     
 
 class IcoFoam(Incompressible):
-    def __init__(self):
-        Incompressible.__init__(self)
-        self.type = 'icoFoam'
-
+    nlSolver = 'PISO'
+    type = 'icoFoam'
+    
 class SimpleFoam(Incompressible):
-    def __init__(self):
-        Incompressible.__init__(self)
-        self.type = 'simpleFoam'
+    nlSolver = 'SIMPLE'
+    type = 'simpleFoam'
         

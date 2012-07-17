@@ -112,9 +112,8 @@ def askForFloat(question, default):
     try :
         sys.stdout.write(question + "[" +str(default) + "]")
         choice = float(raw_input())
-        
     except:
-        print 'Choosing default value \n'
+        pass
             
     return choice
 
@@ -123,7 +122,7 @@ def setupFromOptions(options):
     for (option, values) in options.items():
         if isinstance(values, list):
             result[option] = chooseFromList('Choose ' + option + ' : ', values)
-        if isinstance(values, float):
+        if isinstance(values, (float,int)):
             result[option] = askForFloat('Set ' + option + ' : ', values)
     
     return result

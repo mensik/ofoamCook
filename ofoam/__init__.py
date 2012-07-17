@@ -1,11 +1,14 @@
 import incompressible
 import rasproperties
+import linSolvers
+import nLinSolvers
 import boundaries
 import exceptions
 import fileUtils
 import types
 
-solvers = {'icoFoam': incompressible.IcoFoam}
+solvers = {'icoFoam': incompressible.IcoFoam,
+		   'simpleFoam': incompressible.SimpleFoam}
 
 ## Basic class to store and manipulate information about OpenFOAM problem
 class Problem:
@@ -18,6 +21,19 @@ class Problem:
 	## Loads boundaries from the constant/polyMesh directory 
 	def loadBoundaries(self):
 		self.boundaries = boundaries.Boundaries()
+		
+	def saveFvSolution(self):
+		header = types.FoamFileHeader()
+		header.data['class'] = 'dictionary'
+		header.data['location'] = '"system"'
+		header.data['object'] = 'fvSolution'
+		
+		ffile = types.FoamFile(header)
+		ffile.data.append(('solver', {v.name: v.solver for v in self.variables}))
+		ffile.data.append((self.solver.nlSolver, self.nlSolverConf))
+		ffile.data.append(('relaxationFactors', {v.name: v.relaxFactor for v in self.variables}))
+		
+		fileUtils.saveFoamFile(ffile, 'system/fvSolution')
 		
 	def __repr__(self):
 		repString = "  oFoamProblem STATUS\n=======================\n\n"

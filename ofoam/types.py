@@ -1,3 +1,4 @@
+
 ## Abstract solver prototype class
 #
 # This class and its subclasses are intended to serve as prototyping objects to
@@ -21,20 +22,19 @@ class FoamFileHeader():
         self.data = {}
         self.data['version'] = '2.0'
         self.data['format'] = 'ascii'
-        
-class FoamDictionaryFile():
+
+class FoamFile:
     def __init__(self, header):
-        self.header = header
-        self.options = None
-        self.data = {}
-        
-    
+        self.header = header       
+        self.data = []
 
 class Variable:
-    def __init__(self):
+    def __init__(self, name):
         self.dimension = '[]'
         self.type = 'No type'
-        self.name = 'No name'
+        self.name = name
+        self.relaxFactor = 0.7
+        self.resControl = 1e-3
     
     def __str__(self):
         ret = "\t class\t\t" + self.type + ";\n\t dimensions\t" + self.dimension + ";\n\t object \t" + self.name + ";\n" 
@@ -42,7 +42,7 @@ class Variable:
         
 class VecVolVariable(Variable):
     def __init__(self, name):
-        self.name = name
+        Variable.__init__(self, name)
         self.type = 'volVectorField'
         
 class SpeedVariable(VecVolVariable):
@@ -52,13 +52,14 @@ class SpeedVariable(VecVolVariable):
 
 class ScaVolVariable(Variable):
     def __init__(self, name):
-        self.name = name
+        Variable.__init__(self, name)
         self.type = 'volScalarField'
         
 class PressureVariable(ScaVolVariable):
     def __init__(self, name='p'):
         ScaVolVariable.__init__(self, name)
         self.dimension = '[0 2 -2 0 0 0 0]'
+        self.relaxFactor = 0.3
 
 class TurbKineticEnergy(ScaVolVariable):
     def __init__(self, name='k'):

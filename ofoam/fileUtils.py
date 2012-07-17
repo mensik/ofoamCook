@@ -1,4 +1,5 @@
 import re
+import types
 
 ## Class providing functionality for parsing OpenFOAM files
 #
@@ -91,9 +92,9 @@ class FileWriter:
     def close(self):
         self.file.close()
     
-    def writeDictionary(self, name, dictionary, sort = None):
+    def writeDictionary(self, name, dictionary, nTab = 1, sort = None):
         if name != None:
-            self.file.write(name + "\n{\n")
+            self.file.write('\n' + nTab*'\t' + name + "\n" + nTab*'\t' +"{\n")
             
         if sort == None:
             sort = dictionary.keys()
@@ -102,12 +103,12 @@ class FileWriter:
             
             value = dictionary[key]
             if isinstance(value, dict):
-                FileWriter.writeDictionary(self, key, value)
+                FileWriter.writeDictionary(self, key, value, nTab+1)
             else:
-                self.file.write("\t" + key + "\t\t" + str(value) + ";\n")
+                self.file.write(nTab*'\t' + "\t" + key + "\t\t" + str(value) + ";\n")
 
         if name != None:
-            self.file.write("}\n")
+            self.file.write(nTab*'\t' + "}\n")
     
     def writeNestedDictionaries(self, name, dictionary):
         if name != None:
@@ -116,3 +117,14 @@ class FileWriter:
             self.writeDictionary(key, nestedDictionary)
         if name != None:
             self.file.write("}\n")
+            
+def saveFoamFile(foamFile, fileName):
+    writer = FileWriter(fileName)
+    
+    writer.writeDictionary('FoamFile', foamFile.header.data)
+    
+    for (name, dic) in foamFile.data:
+        writer.writeDictionary(name, dic)
+    
+    writer.close()
+    

@@ -1,5 +1,6 @@
 import types
 from cmdUtils import chooseFromList, setupFromOptions
+from ofoam.types import FoamFileHeader
 
 class Header(types.FoamFileHeader):
     def __init__(self):
@@ -20,14 +21,23 @@ class Options:
               }
     
 def cmdSetup():
-    RASPfile = types.FoamDictionaryFile(Header())
+    
+    header = FoamFileHeader()
+    header.data['class'] = 'dictionary'
+    header.data['location'] = '"constant"'
+    header.data['object'] = 'RASProperties'
+    
+    RASPfile = types.FoamFile(header)
+    
+    dic = {}
     
     for (option, values) in Options.options:
         if option != '<RASModel>Coefs':
-            RASPfile.data[option] = chooseFromList('Choose ' + option + ' : ', values)
+            dic[option] = chooseFromList('Choose ' + option + ' : ', values)
             
-    RASPfile.data[RASPfile.data['RASModel'] + 'Coefs'] = setupFromOptions(Options.modelCoefs[RASPfile.data['RASModel']])
+    dic[dic['RASModel'] + 'Coefs'] = setupFromOptions(Options.modelCoefs[dic['RASModel']])
     
+    RASPfile.data.append((None, dic))
     return RASPfile
     
     
