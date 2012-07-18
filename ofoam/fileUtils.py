@@ -92,39 +92,27 @@ class FileWriter:
     def close(self):
         self.file.close()
     
-    def writeDictionary(self, name, dictionary, nTab = 1, sort = None):
-        if name != None:
-            self.file.write('\n' + nTab*'\t' + name + "\n" + nTab*'\t' +"{\n")
-            
-        if sort == None:
-            sort = dictionary.keys()
+    def writeOptions(self, oname, opts, nTab = 0):
+        if oname != None:
+            self.file.write('\n' + nTab*'\t' + oname + "\n" + nTab*'\t' +"{\n")
         
-        for key in sort:
+        for (name, value) in opts:
             
-            value = dictionary[key]
-            if isinstance(value, dict):
-                FileWriter.writeDictionary(self, key, value, nTab+1)
+            if isinstance(value, list):
+                FileWriter.writeOptions(self, name, value, nTab+1)
             else:
-                self.file.write(nTab*'\t' + "\t" + key + "\t\t" + str(value) + ";\n")
+                self.file.write(nTab*'\t' + "\t" + name + "\t\t" + str(value) + ";\n")
 
-        if name != None:
+        if oname != None:
             self.file.write(nTab*'\t' + "}\n")
-    
-    def writeNestedDictionaries(self, name, dictionary):
-        if name != None:
-            self.file.write(name + "\n{\n")
-        for (key, nestedDictionary) in dictionary.iteritems():
-            self.writeDictionary(key, nestedDictionary)
-        if name != None:
-            self.file.write("}\n")
             
 def saveFoamFile(foamFile, fileName):
     writer = FileWriter(fileName)
     
-    writer.writeDictionary('FoamFile', foamFile.header.data)
+    writer.writeOptions('FoamFile', foamFile.header.data)
     
-    for (name, dic) in foamFile.data:
-        writer.writeDictionary(name, dic)
+    for (name, opts) in foamFile.data:
+        writer.writeOptions(name, opts)
     
     writer.close()
     

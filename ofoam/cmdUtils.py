@@ -118,12 +118,12 @@ def askForFloat(question, default):
     return choice
 
 def setupFromOptions(options):
-    result = {}
-    for (option, values) in options.items():
+    result = []
+    for (option, values) in options:
         if isinstance(values, list):
-            result[option] = chooseFromList('Choose ' + option + ' : ', values)
+            result.append((option, chooseFromList('Choose ' + option + ' : ', values)))
         if isinstance(values, (float,int)):
-            result[option] = askForFloat('Set ' + option + ' : ', values)
+            result.append((option, askForFloat('Set ' + option + ' : ', values)))
     
     return result
         

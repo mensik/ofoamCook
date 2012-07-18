@@ -19,9 +19,10 @@ class ASolver:
 class FoamFileHeader():
     def __init__(self):
         self.name = 'FoamFile'
-        self.data = {}
-        self.data['version'] = '2.0'
-        self.data['format'] = 'ascii'
+        self.data = [
+                  ('version','2.0'),
+                  ('format','ascii')
+                  ]
 
 class FoamFile:
     def __init__(self, header):

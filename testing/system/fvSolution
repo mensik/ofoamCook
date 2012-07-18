@@ -1,46 +1,30 @@
 
 	FoamFile
 	{
-		location		"system";
 		version		2.0;
-		class		dictionary;
-		object		fvSolution;
 		format		ascii;
+		class		dictionary;
+		location		"system";
+		object		fvSolution;
 	}
 
 	solver
 	{
 
-		p
-		{
-			relTol		0.001;
-			preconditioner		DIC;
-			tolerance		1e-07;
-			solver		PCG;
-		}
-
-		k
-		{
-			relTol		0.001;
-			preconditioner		DIC;
-			tolerance		1e-07;
-			solver		PCG;
-		}
-
 		U
 		{
-			relTol		0.001;
+			solver		PCG;
 			preconditioner		DIC;
 			tolerance		1e-07;
-			solver		PCG;
+			relTol		0.001;
 		}
 
-		epsilon
+		p
 		{
-			relTol		0.001;
+			solver		PCG;
 			preconditioner		DIC;
 			tolerance		1e-07;
-			solver		PCG;
+			relTol		0.001;
 		}
 	}
 
@@ -51,8 +35,6 @@
 
 	relaxationFactors
 	{
-		p		0.3;
-		k		0.7;
 		U		0.7;
-		epsilon		0.7;
+		p		0.3;
 	}

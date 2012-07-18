@@ -25,14 +25,14 @@ class Problem:
 		
 	def saveFvSolution(self):
 		header = types.FoamFileHeader()
-		header.data['class'] = 'dictionary'
-		header.data['location'] = '"system"'
-		header.data['object'] = 'fvSolution'
+		header.data += [('class','dictionary'),
+					('location','"system"'),
+					('object','fvSolution')]
 		
 		ffile = types.FoamFile(header)
-		ffile.data.append(('solver', {v.name: v.solver for v in self.variables}))
+		ffile.data.append(('solver', [(v.name, v.solver) for v in self.variables]))
 		ffile.data.append((self.solver.nlSolver, self.nlSolverConf))
-		ffile.data.append(('relaxationFactors', {v.name: v.relaxFactor for v in self.variables}))
+		ffile.data.append(('relaxationFactors', [(v.name, v.relaxFactor) for v in self.variables]))
 		
 		fileUtils.saveFoamFile(ffile, 'system/fvSolution')
 		

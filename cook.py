@@ -33,9 +33,12 @@ class CookCmd(Cmd):
             self.problem.loadBoundaries()
             self.problem.solver = chooseFromDictionary('Choose solver:', ofoam.solvers)()
             ## @todo Now only RAS model
-            self.problem.raspFile = ofoam.rasproperties.cmdSetup()
-            self.problem.turbulentModel = self.problem.raspFile.data[0][1]['RASModel']
             
+            print "== Setup RASP =="
+            self.problem.raspFile = ofoam.rasproperties.cmdSetup()
+            self.problem.turbulentModel = self.problem.raspFile.data[0][1][0][1]
+            
+            print "== Setup Variables =="
             self.problem.variables = self.problem.solver.getDefaultVariables(self.problem.turbulentModel)
             
             linSolver = None
@@ -51,6 +54,7 @@ class CookCmd(Cmd):
             
             self.problem.nlSolverConf = setupFromOptions(ofoam.nLinSolvers.Options.options[self.problem.solver.nlSolver])
             
+            print "== SAVE FV Solution =="
             self.problem.saveFvSolution()
             
         except IncompleteData as e:
