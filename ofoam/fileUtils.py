@@ -106,9 +106,22 @@ class FileWriter:
         if oname != None:
             self.file.write(nTab*'\t' + "}\n")
             
+    def writeHeader(self):
+        
+        head = '''
+         ______                      ______            __  
+  ____  / ____/___  ____ _____ ___  / ____/___  ____  / /__
+ / __ \/ /_  / __ \/ __ `/ __ `__ \/ /   / __ \/ __ \/ //_/
+/ /_/ / __/ / /_/ / /_/ / / / / / / /___/ /_/ / /_/ / ,<   
+\____/_/    \____/\__,_/_/ /_/ /_/\____/\____/\____/_/|_|  
+                                                           
+        '''
+        self.file.write(head);
+        
 def saveFoamFile(foamFile, fileName):
     writer = FileWriter(fileName)
     
+    writer.writeHeader()
     writer.writeOptions('FoamFile', foamFile.header.data)
     
     for (name, opts) in foamFile.data:
