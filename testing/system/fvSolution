@@ -1,40 +1,65 @@
 
-	FoamFile
+         ______                      ______            __  
+  ____  / ____/___  ____ _____ ___  / ____/___  ____  / /__
+ / __ \/ /_  / __ \/ __ `/ __ `__ \/ /   / __ \/ __ \/ //_/
+/ /_/ / __/ / /_/ / /_/ / / / / / / /___/ /_/ / /_/ / ,<   
+\____/_/    \____/\__,_/_/ /_/ /_/\____/\____/\____/_/|_|  
+                                                           
+        
+FoamFile
+{
+	version		2.0;
+	format		ascii;
+	class		dictionary;
+	location		"system";
+	object		fvSolution;
+}
+
+solver
+{
+
+	U
 	{
-		version		2.0;
-		format		ascii;
-		class		dictionary;
-		location		"system";
-		object		fvSolution;
+		solver		PCG;
+		preconditioner		diagonal;
+		tolerance		1e-07;
+		relTol		0.001;
 	}
 
-	solver
+	p
 	{
-
-		U
-		{
-			solver		PCG;
-			preconditioner		DIC;
-			tolerance		1e-07;
-			relTol		0.001;
-		}
-
-		p
-		{
-			solver		PCG;
-			preconditioner		DIC;
-			tolerance		1e-07;
-			relTol		0.001;
-		}
+		solver		PCG;
+		preconditioner		diagonal;
+		tolerance		1e-07;
+		relTol		0.001;
 	}
 
-	PISO
+	k
 	{
-		nNonOrthogonalCorectors		0;
+		solver		PCG;
+		preconditioner		diagonal;
+		tolerance		1e-07;
+		relTol		0.001;
 	}
 
-	relaxationFactors
+	epsilon
 	{
-		U		0.7;
-		p		0.3;
+		solver		PCG;
+		preconditioner		diagonal;
+		tolerance		1e-07;
+		relTol		0.001;
 	}
+}
+
+SIMPLE
+{
+	nNonOrthogonalCorectors		0;
+}
+
+relaxationFactors
+{
+	U		0.7;
+	p		0.3;
+	k		0.7;
+	epsilon		0.7;
+}

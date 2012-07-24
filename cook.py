@@ -6,7 +6,7 @@
 #  Main file for the utility
 #
 
-from cmd2 import Cmd, make_option, options, Cmd2TestCase
+from cmd2 import Cmd, make_option, options
 from ofoam.cmdUtils import query_yn, chooseFromDictionary, askForFloat,\
     setupFromOptions
 
